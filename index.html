@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Invitación de Boda - Roviro & Mary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Marcellus&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde-invitacion:#3b472e;
+  --verde-oscuro:#242c17;
+  --crema-fondo:#faf8f5;
+  --crema-tarjeta:#f5eedc;
+  --dorado:#bca374;
+  --dorado-oscuro:#a78b5a;
+  --texto-oscuro:#333333;
+  --texto-suave:#666666;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html, body { 
+  overflow-x: hidden; 
+  background:#dedad0; 
+  -webkit-font-smoothing: antialiased;
+}
+body{
+  font-family:'Cormorant Garamond', serif;
+  color:var(--texto-oscuro);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+/* ---- CONTENEDOR EXCLUSIVO PARA TELÉFONOS ---- */
+.telefono{
+  width:100%; max-width:460px;
+  background:var(--crema-fondo);
+  overflow:hidden;
+  box-shadow:0 15px 50px rgba(0,0,0,.15);
+  position:relative;
+}
+
+section{ 
+  position:relative; 
+  padding:60px 25px; 
+  text-align:center; 
+  overflow:hidden; 
+}
+
+/* ---- ANIMACIONES DE APARICIÓN DINÁMICA (SCROLL EFFECT) ---- */
+.animar-elemento {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s cubic-bezier(0.215, 0.610, 0.355, 1), transform 1s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+.animar-elemento.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- PANTALLA INTRO "BOOM" DE BIENVENIDA ---- */
+#pantalla-bienvenida {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: var(--crema-fondo);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: opacity 1s ease-out, visibility 1s ease-out;
+}
+#pantalla-bienvenida.ocultar {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.logo-bienvenida {
+  font-family: 'Mrs Saint Delafield', cursive;
+  font-size: 80px;
+  color: var(--verde-invitacion);
+  animation: latidoSuave 2.5s infinite ease-in-out;
+  margin-bottom: 20px;
+}
+.btn-abrir {
+  background: transparent;
+  color: var(--dorado-oscuro);
+  border: 1px solid var(--dorado);
+  padding: 12px 35px;
+  border-radius: 30px;
+  font-family: 'Marcellus', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 15px rgba(188, 163, 116, 0.15);
+}
+.btn-abrir:hover {
+  background: var(--dorado);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+@keyframes latidoSuave {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+/* ---- Tipografías y Textos ---- */
+.eyebrow{
+  font-family:'Marcellus', serif;
+  letter-spacing:4px;
+  font-size:12px;
+  color:var(--texto-suave);
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.nombres-portada {
+  font-family: 'Marcellus', serif;
+  font-size: 28px;
+  letter-spacing: 3px;
+  color: #4a4a4a;
+  margin: 15px 0;
+  text-transform: uppercase;
+}
+.script{ 
+  font-family:'Mrs Saint Delafield', cursive; 
+  font-size: 64px; 
+  font-weight: 400; 
+  color: var(--verde-invitacion); 
+  line-height: 0.9;
+  margin: 15px 0;
+}
+.script.claro{ color:#fff; }
+.parrafo-romantico {
+  font-size: 19px;
+  line-height: 1.6;
+  color: #555;
+  margin: 15px 10px;
+  font-style: italic;
+}
+.linea-oro{ width:50px; height:1px; background:var(--dorado); margin:20px auto; }
+
+/* ---- Flores Decorativas SVG ---- */
+.flor-esquina {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  pointer-events: none;
+  z-index: 10;
+}
+.flor-esquina.top-right { top: 0; right: 0; }
+.flor-esquina.bottom-left { bottom: 0; left: 0; transform: rotate(180deg); }
+.flor-esquina.top-left { top: 0; left: 0; transform: scaleX(-1); }
+.flor-esquina.bottom-right { bottom: 0; right: 0; transform: scaleY(-1); }
+
+/* ---- FOTOS CON ESQUINAS REDONDEADAS Y EFECTO FADE OUT ---- */
+.marco-foto {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #f0ebe1;
+  border-radius: 20px; /* Bordes elegantemente redondeados, no de punta */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); /* Añade suavidad y elegancia */
+}
+.marco-foto img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: transform 1.5s ease;
+}
+.telefono:hover .marco-foto img {
+  transform: scale(1.03);
+}
+.marco-foto::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 35%;
+  background: linear-gradient(to bottom, rgba(250, 248, 245, 0) 0%, var(--crema-fondo) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ---- REPRODUCTOR DE MÚSICA ---- */
+.player{
+  margin: 25px auto 10px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 20px;
+  color: var(--texto-oscuro);
+}
+.player .play {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1.5px solid var(--dorado);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--dorado);
+  background: transparent;
+  transition: all 0.3s ease;
+}
+.player .play:hover, .player.playing .play {
+  background: var(--dorado);
+  color: #fff;
+}
+.player .mini { font-size: 18px; cursor: pointer; color: #888; transition: color 0.3s; }
+
+/* ---- TARJETA DE PADRES ---- */
+.tarjeta-padres {
+  background-color: var(--verde-invitacion);
+  border-radius: 12px; /* Esquinas redondeadas para combinar */
+  padding: 55px 25px;
+  color: #fff;
+  position: relative;
+  margin-top: 35px;
+}
+.tarjeta-padres h4 {
+  font-family: 'Marcellus', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dorado);
+  margin-top: 25px;
+  margin-bottom: 5px;
+}
+.tarjeta-padres p {
+  color: #fff;
+  font-size: 19px;
+  margin-bottom: 15px;
+  opacity: 0.95;
+  line-height: 1.4;
+}
+
+/* ---- CALENDARIO ---- */
+.calendario-contenedor {
+  position: relative;
+  padding: 20px 0;
+  margin-bottom: 20px;
+}
+.calendario{
+  display:flex; flex-wrap:wrap;
+  gap:12px 0; max-width:290px; margin:0 auto;
+  font-family:'Marcellus', serif; font-size:14px; color:#555;
+}
+.calendario > div{ width:14.28%; text-align:center; padding:4px 0; }
+.calendario .dia-nombre{ font-size:11px; color:var(--dorado-oscuro); font-weight: bold; }
+.calendario .marcado{
+  background:var(--verde-invitacion); 
+  color:#fff; 
+  border-radius:50%; 
+  width:28px; 
+  height:28px; 
+  margin: -3px auto 0; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  font-weight: bold;
+}
+.versiculo{ font-style:italic; font-size: 19px; margin:35px 0 10px; color:var(--texto-oscuro); padding:0 10px; line-height:1.6; }
+.versiculo cite{ display:block; font-style:normal; font-size:13px; letter-spacing:1px; margin-top:12px; color:var(--dorado-oscuro); }
+
+/* ---- CUENTA REGRESIVA ---- */
+.contador-seccion {
+  background-color: var(--verde-invitacion);
+  color: #fff;
+}
+.timer{ display:flex; justify-content:center; gap:12px; margin-top: 25px;}
+.timer div{ min-width:65px; border-left:1px solid rgba(255,255,255,.15); }
+.timer div:first-child{ border-left:none; }
+.timer .num{ font-size:34px; font-family:'Marcellus',serif; color:#fff; }
+.timer .lbl{ font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--dorado); margin-top:4px;}
+
+/* ---- ITINERARIO EN "SERPIENTE" (ZIGZAG CURVO PERFECCIONADO) ---- */
+.itinerario-cuadro {
+  background-color: #fff;
+  border: 1px solid rgba(188, 163, 116, 0.3);
+  border-radius: 12px; /* Esquinas redondeadas */
+  padding: 50px 15px;
+  position: relative;
+  margin: 30px 5px 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+.camino-serpiente {
+  position: relative;
+  max-width: 360px;
+  margin: 0 auto;
+}
+/* SVG de fondo que simula el camino curvo de la serpiente */
+.linea-serpiente-svg {
+  position: absolute;
+  top: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: calc(100% - 60px);
+  z-index: 1;
+  pointer-events: none;
+}
+.paso-serpiente {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 70px;
+  margin-bottom: 55px;
+  z-index: 2;
+  width: 100%;
+}
+.paso-serpiente:last-child { margin-bottom: 0; }
+
+.paso-serpiente.izquierda { 
+  justify-content: flex-start; 
+  text-align: right; 
+  padding-right: 58%; 
+  padding-left: 5px;
+}
+.paso-serpiente.derecha { 
+  justify-content: flex-end; 
+  text-align: left; 
+  padding-left: 58%; 
+  padding-right: 5px;
+}
+
+.paso-serpiente .icono-wrapper {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 52px;
+  height: 52px;
+  background: #fff;
+  border: 2px solid var(--dorado);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+.paso-serpiente .icono-mini {
+  width: 30px;
+  height: 30px;
+  stroke: var(--verde-invitacion);
+  fill: none;
+  stroke-width: 1.4;
+}
+.paso-serpiente .detalles-evento {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.paso-serpiente .hora {
+  font-family: 'Marcellus', serif;
+  font-size: 19px;
+  color: var(--texto-oscuro);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.paso-serpiente .evento {
+  font-family: 'Marcellus', serif;
+  font-size: 10.5px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--dorado-oscuro);
+  margin-top: 3px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+/* ---- TARJETAS ARQUEADAS DE UBICACIÓN ---- */
+.tarjeta-arco {
+  background-color: var(--verde-invitacion);
+  color: #fff;
+  border-radius: 120px 120px 12px 12px; /* Redondeado adaptado */
+  padding: 65px 30px 45px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 35px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.tarjeta-arco h3 {
+  font-family: 'Mrs Saint Delafield', cursive;
+  font-size: 44px;
+  font-weight: 400;
+  margin: 10px 0;
+  color: #fff;
+}
+.tarjeta-arco p {
+  color: rgba(255,255,255,0.9);
+  font-size: 17px;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+.boton {
+  display: inline-block;
+  background: transparent;
+  color: var(--dorado);
+  text-decoration: none;
+  padding: 11px 35px;
+  border-radius: 30px;
+  font-family: 'Marcellus', serif;
+  border: 1.5px solid var(--dorado);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.boton:hover {
+  background: var(--dorado);
+  color: #fff;
+}
+
+/* ---- DETALLES ---- */
+.bloque-detalle {
+  margin-top: 45px;
+}
+.bloque-detalle h3 {
+  font-family: 'Mrs Saint Delafield', cursive;
+  font-size: 38px;
+  color: var(--verde-invitacion);
+  margin-bottom: 8px;
+}
+.bloque-detalle p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* ---- ÁLBUM Y RSVP ---- */
+.seccion-oscura {
+  background-color: var(--verde-invitacion);
+  color: #fff;
+}
+.seccion-oscura .script { color: #fff; }
+.seccion-oscura p { color: rgba(255,255,255,0.85); }
+.qr-marco {
+  width: 160px;
+  height: 160px;
+  background: #fff;
+  padding: 10px;
+  margin: 25px auto;
+  border-radius: 12px; /* Esquinas del QR redondeadas */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.qr-marco img { width: 100%; height: 100%; object-fit: cover; }
+
+.campo {
+  text-align: left;
+  margin-bottom: 25px;
+}
+.campo label {
+  display: block;
+  font-family: 'Marcellus', serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--verde-invitacion);
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+.campo input[type=text] {
+  width: 100%;
+  border: none;
+  border-bottom: 1.5px solid #ccc;
+  background: transparent;
+  padding: 10px 5px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  color: var(--texto-oscuro);
+  transition: border-color 0.3s;
+}
+.campo input[type=text]:focus {
+  outline: none;
+  border-color: var(--dorado-oscuro);
+}
+.opciones label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.enviar-btn {
+  width: 100%;
+  background: var(--verde-invitacion);
+  color: #fff;
+  border: none;
+  padding: 16px;
+  border-radius: 30px; /* Botón de enviar redondeado */
+  font-family: 'Marcellus', serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.enviar-btn:hover { background: var(--verde-oscuro); }
+
+footer {
+  padding: 40px 20px;
+  text-align: center;
+  font-family: 'Marcellus', serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--texto-suave);
+}
+</style>
+</head>
+<body>
+
+<!-- PANTALLA INTRODUCCTORIA DE BIENVENIDA (PANTALLA DE ENTRADA BOOM) -->
+<div id="pantalla-bienvenida">
+  <svg class="flor-esquina top-right" style="color: var(--dorado);" viewBox="0 0 100 100"><use href="#diseno-flores" xlink:href="#diseno-flores"/></svg>
+  <svg class="flor-esquina bottom-left" style="color: var(--dorado);" viewBox="0 0 100 100"><use href="#diseno-flores" xlink:href="#diseno-flores"/></svg>
+  
+  <div style="margin-bottom: 5px; font-family:'Marcellus', serif; font-size: 11px; letter-spacing: 4px; color: var(--texto-suave);">BIENVENIDOS A LA INVITACIÓN DE</div>
+  <div class="logo-bienvenida">R & M</div>
+  <button class="btn-abrir" onclick="entrarInvitacion()">Abrir Invitación</button>
+</div>
+
+<!-- AUDIO DEL REPRODUCTOR -->
+<audio id="musicaBoda" loop>
+  <source src="te voy amar.mp3" type="audio/mpeg">
+  Tu navegador no soporta el elemento de audio.
+</audio>
+
+<!-- DEFINICIONES DE ICONOS SVG -->
+<svg style="display:none">
+  <defs>
+    <symbol id="ic-anillo" viewBox="0 0 48 48"><circle cx="24" cy="28" r="12" stroke="currentColor" fill="none" stroke-width="2"/><path d="M24 16 L18 6 L30 6 Z" stroke="currentColor" fill="none" stroke-width="2"/></symbol>
+    <symbol id="ic-iglesia" viewBox="0 0 48 48"><path d="M24 6 L24 14 M20 10 L28 10 M12 44 V24 L24 14 L36 24 V44 Z M20 44 V32 H28 V44" stroke="currentColor" fill="none" stroke-width="2"/></symbol>
+    <symbol id="ic-arco" viewBox="0 0 48 48"><path d="M10 44 V22 C10 12 16 6 24 6 C32 6 38 12 38 22 V44" stroke="currentColor" fill="none" stroke-width="2"/></symbol>
+    <symbol id="ic-copa" viewBox="0 0 48 48"><path d="M16 6 H32 L28 24 C28 28 24 30 24 30 C24 30 20 28 20 24 Z M24 30 V40 M16 44 H32" stroke="currentColor" fill="none" stroke-width="2"/></symbol>
+    <symbol id="ic-musica" viewBox="0 0 48 48"><circle cx="14" cy="36" r="5" stroke="currentColor" fill="none" stroke-width="2"/><circle cx="34" cy="32" r="5" stroke="currentColor" fill="none" stroke-width="2"/><path d="M19 36 V12 L39 8 V32 M19 18 L39 14" stroke="currentColor" fill="none" stroke-width="2"/></symbol>
+    <symbol id="ic-pin" viewBox="0 0 48 48"><path d="M24 44 C24 44 38 30 38 19 C38 11 32 5 24 5 C16 5 10 11 10 19 C10 30 24 44 24 44 Z" stroke="currentColor" fill="none" stroke-width="2"/><circle cx="24" cy="19" r="6" stroke="currentColor" fill="none" stroke-width="2"/></symbol>
+    <symbol id="ic-traje" viewBox="0 0 48 48"><path d="M16 8 L10 14 L14 20 L14 44 H24 V26 L28 44 H34 V20 L38 14 L32 8 L24 14 Z" stroke="currentColor" fill="none" stroke-width="2"/></symbol>
+    <symbol id="ic-regalo" viewBox="0 0 48 48"><rect x="8" y="18" width="32" height="24" rx="1" stroke="currentColor" fill="none" stroke-width="2"/><path d="M8 26 H40 M24 18 V42 M24 18 C24 18 16 18 16 12 C16 8 20 8 24 12 C28 8 32 8 32 12 C32 18 24 18 24 18 Z" stroke="currentColor" fill="none" stroke-width="2"/></symbol>
+    <symbol id="ic-familia" viewBox="0 0 48 48"><circle cx="16" cy="14" r="5" stroke="currentColor" fill="none" stroke-width="2"/><circle cx="32" cy="14" r="5" stroke="currentColor" fill="none" stroke-width="2"/><path d="M8 40 C8 30 12 24 16 24 C20 24 24 30 24 40 M24 40 C24 30 28 24 32 24 C36 24 40 30 40 40" stroke="currentColor" fill="none" stroke-width="2"/></symbol>
+    <symbol id="ic-camara" viewBox="0 0 48 48"><rect x="6" y="14" width="36" height="24" rx="2" stroke="currentColor" fill="none" stroke-width="2"/><path d="M16 14 L19 9 H29 L32 14 M24 26" stroke="currentColor" fill="none" stroke-width="2"/><circle cx="24" cy="26" r="7" stroke="currentColor" fill="none" stroke-width="2"/></symbol>
+  </defs>
+</svg>
+
+<!-- DISEÑO DE FLORES SVG COMPARTIDO -->
+<svg style="display:none">
+  <g id="diseno-flores">
+    <path d="M90 10 C70 25, 55 15, 45 35 C40 25, 25 15, 35 5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <path d="M90 10 C80 35, 65 50, 50 55 C55 40, 70 25, 90 10" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <circle cx="75" cy="25" r="8" fill="#fff" stroke="currentColor" stroke-width="1.5"/>
+    <circle cx="60" cy="40" r="6" fill="#fff" stroke="currentColor" stroke-width="1.2"/>
+    <circle cx="80" cy="45" r="4.5" fill="#fff" stroke="currentColor" stroke-width="1"/>
+  </g>
+</svg>
+
+<div class="telefono">
+
+  <!-- ============ 1. IMAGEN 1: PORTADA ============ -->
+  <section id="portada" style="padding: 10px 10px 0 10px;">
+    <div class="marco-foto">
+      <img src="img/imagen4.jpeg" alt="Portada Roviro & Mary">
+    </div>
+  </section>
+
+  <!-- ============ INTRODUCCIÓN ============ -->
+  <section class="animar-elemento" style="padding-top: 40px; padding-bottom: 40px;">
+    <div class="eyebrow">Nuestra Boda</div>
+    <h1 class="nombres-portada">Roviro & Mary</h1>
+    <p class="parrafo-romantico">
+      "Hemos decidido dar un gran paso y seguir caminando juntos de la mano, por eso queremos contarte que"
+    </p>
+    <div class="script">¡Nos casamos!</div>
+  </section>
+
+  <!-- ============ MÚSICA Y PADRES ============ -->
+  <section class="animar-elemento" style="padding-top: 0;">
+    <div class="player" id="playerContainer">
+      <span class="mini">↻</span>
+      <span class="mini">⏮</span>
+      <button class="play" id="btnPlay" onclick="toggleMusica()">▶</button>
+      <span class="mini">⏭</span>
+      <span class="mini">⤨</span>
+    </div>
+    <div class="eyebrow" style="font-size: 10px; margin-top: 10px;">Escucha nuestra canción</div>
+
+    <div class="tarjeta-padres">
+      <svg class="flor-esquina top-right" style="color: var(--dorado);" viewBox="0 0 100 100"><use href="#diseno-flores" xlink:href="#diseno-flores"/></svg>
+      <svg class="flor-esquina bottom-left" style="color: var(--dorado);" viewBox="0 0 100 100"><use href="#diseno-flores" xlink:href="#diseno-flores"/></svg>
+      
+      <p style="font-size: 17px; margin-bottom: 25px; opacity: 0.85;">Con nuestro amor, la bendición de Dios y de nuestros padres.</p>
+      
+      <h4>Padres de la Novia</h4>
+      <p>Rafael Briceño<br>Layda Quintero</p>
+      
+      <h4>Padres del Novio</h4>
+      <p>Roviro Andrade<br>Cruz Ruiz</p>
+      
+      <h4>Padrinos</h4>
+      <p>Langer Quintero<br>Andrea Acevedo</p>
+    </div>
+  </section>
+
+  <!-- ============ 2. IMAGEN 2: CALENDARIO Y VERSÍCULO ============ -->
+  <section class="animar-elemento" style="padding-top: 10px;">
+    <div class="eyebrow">Reserva la fecha</div>
+    <div class="script" style="font-size: 52px; margin-bottom: 10px;">Septiembre 2026</div>
+    
+    <div class="calendario-contenedor">
+      <svg class="flor-esquina top-left" style="color: var(--dorado-oscuro); width: 65px; height: 65px;" viewBox="0 0 100 100"><use href="#diseno-flores" xlink:href="#diseno-flores"/></svg>
+      <svg class="flor-esquina bottom-right" style="color: var(--dorado-oscuro); width: 65px; height: 65px;" viewBox="0 0 100 100"><use href="#diseno-flores" xlink:href="#diseno-flores"/></svg>
+      
+      <div class="calendario">
+        <div class="dia-nombre">Lun</div><div class="dia-nombre">Mar</div><div class="dia-nombre">Mié</div><div class="dia-nombre">Jue</div><div class="dia-nombre">Vie</div><div class="dia-nombre">Sáb</div><div class="dia-nombre">Dom</div>
+        <div></div><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div>
+        <div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div><div>13</div>
+        <div>14</div><div>15</div><div>16</div><div>17</div><div>18</div><div class="marcado">19</div><div>20</div>
+        <div>21</div><div>22</div><div>23</div><div>24</div><div>25</div><div>26</div><div>27</div>
+        <div>28</div><div>29</div><div>30</div><div></div><div></div><div></div><div></div>
+      </div>
+    </div>
+
+    <p class="versiculo">
+      "Y sobre todas estas cosas, vístanse de amor, que es el vínculo perfecto."
+      <cite>Colosenses 3,14</cite>
+    </p>
+
+    <div style="padding: 10px 10px 0 10px;">
+      <div class="marco-foto animar-elemento" style="margin-top: 40px;">
+        <img src="img/imagen3.jpeg" alt="Roviro y Mary Juntos">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CUENTA REGRESIVA ============ -->
+  <section class="contador-seccion animar-elemento">
+    <div class="script claro">La espera termina en...</div>
+    <div class="timer">
+      <div><div class="num" id="dias">00</div><div class="lbl">Días</div></div>
+      <div><div class="num" id="horas">00</div><div class="lbl">Horas</div></div>
+      <div><div class="num" id="mins">00</div><div class="lbl">Min</div></div>
+      <div><div class="num" id="segs">00</div><div class="lbl">Seg</div></div>
+    </div>
+  </section>
+
+  <!-- ============ ITINERARIO ============ -->
+  <section class="animar-elemento">
+    <div class="script">Itinerario</div>
+    
+    <div class="itinerario-cuadro">
+      <svg class="flor-esquina top-right" style="color: var(--dorado); width: 65px; height: 65px;" viewBox="0 0 100 100"><use href="#diseno-flores" xlink:href="#diseno-flores"/></svg>
+      <svg class="flor-esquina bottom-left" style="color: var(--dorado); width: 65px; height: 65px;" viewBox="0 0 100 100"><use href="#diseno-flores" xlink:href="#diseno-flores"/></svg>
+
+      <div class="camino-serpiente">
+        <svg class="linea-serpiente-svg" viewBox="0 0 100 550" preserveAspectRatio="none">
+          <path d="M50,0 C110,45 110,55 50,105 C-10,155 -10,165 50,215 C110,265 110,275 50,325 C-10,375 -10,385 50,435 C110,485 110,495 50,550" 
+                fill="none" 
+                stroke="#bca374" 
+                stroke-width="2.5" 
+                stroke-dasharray="6,6"/>
+        </svg>
+
+        <div class="paso-serpiente izquierda animar-elemento">
+          <div class="icono-wrapper">
+            <svg class="icono-mini"><use href="#ic-iglesia" xlink:href="#ic-iglesia"/></svg>
+          </div>
+          <div class="detalles-evento">
+            <div class="hora">5:00 PM</div>
+            <div class="evento">Ceremonia</div>
+          </div>
+        </div>
+
+        <div class="paso-serpiente derecha animar-elemento">
+          <div class="icono-wrapper">
+            <svg class="icono-mini"><use href="#ic-arco" xlink:href="#ic-arco"/></svg>
+          </div>
+          <div class="detalles-evento">
+            <div class="hora">8:00 PM</div>
+            <div class="evento">Evento</div>
+          </div>
+        </div>
+
+        <div class="paso-serpiente izquierda animar-elemento">
+          <div class="icono-wrapper">
+            <svg class="icono-mini"><use href="#ic-copa" xlink:href="#ic-copa"/></svg>
+          </div>
+          <div class="detalles-evento">
+            <div class="hora">8:30 PM</div>
+            <div class="evento">Brindis</div>
+          </div>
+        </div>
+
+        <div class="paso-serpiente derecha animar-elemento">
+          <div class="icono-wrapper">
+            <svg class="icono-mini" style="stroke-width:1.5"><path d="M12 20 C18 10, 30 10, 36 20 M14 30 L24 40 L34 30" stroke="currentColor" fill="none"/></svg>
+          </div>
+          <div class="detalles-evento">
+            <div class="hora">9:00 PM</div>
+            <div class="evento">Baile de Novios</div>
+          </div>
+        </div>
+
+        <div class="paso-serpiente izquierda animar-elemento">
+          <div class="icono-wrapper">
+            <svg class="icono-mini"><use href="#ic-regalo" xlink:href="#ic-regalo"/></svg>
+          </div>
+          <div class="detalles-evento">
+            <div class="hora">9:30 PM</div>
+            <div class="evento">Cena</div>
+          </div>
+        </div>
+
+        <div class="paso-serpiente derecha animar-elemento">
+          <div class="icono-wrapper">
+            <svg class="icono-mini"><use href="#ic-musica" xlink:href="#ic-musica"/></svg>
+          </div>
+          <div class="detalles-evento">
+            <div class="hora">10:00 PM</div>
+            <div class="evento">Fiesta</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ UBICACIONES ARQUEADAS ============ -->
+  <section style="padding-top: 10px;">
+    <div class="tarjeta-arco animar-elemento">
+      <svg class="flor-esquina top-right" style="color: var(--dorado);" viewBox="0 0 100 100"><use href="#diseno-flores" xlink:href="#diseno-flores"/></svg>
+      <svg class="icono-svg" style="stroke:#fff; width:36px; height:36px; fill:none; margin-bottom: 15px;"><use href="#ic-pin" xlink:href="#ic-pin"/></svg>
+      <h3>Ceremonia</h3>
+      <p>Iglesia Santísima Trinidad,<br>Limoncito.</p>
+      <div class="hora" style="color:var(--dorado); font-family:'Marcellus', serif; margin-bottom: 20px;">5:00 PM</div>
+      <a class="boton" href="https://maps.app.goo.gl/srL6bgpnKkHK8qMH7" target="_blank">Ver Mapa</a>
+    </div>
+
+    <div class="tarjeta-arco animar-elemento">
+      <svg class="flor-esquina top-right" style="color: var(--dorado);" viewBox="0 0 100 100"><use href="#diseno-flores" xlink:href="#diseno-flores"/></svg>
+      <svg class="icono-svg" style="stroke:#fff; width:36px; height:36px; fill:none; margin-bottom: 15px;"><use href="#ic-pin" xlink:href="#ic-pin"/></svg>
+      <h3>Evento</h3>
+      <p>Salón De Eventos Mi Cabaña,<br>El Torno.</p>
+      <div class="hora" style="color:var(--dorado); font-family:'Marcellus', serif; margin-bottom: 20px;">8:00 PM</div>
+      <a class="boton" href="https://maps.app.goo.gl/NmhpzKbeKHBRARUg9" target="_blank">Ver Mapa</a>
+    </div>
+  </section>
+
+  <!-- ============ 3. IMAGEN 3: DETALLES ============ -->
+  <section style="padding-bottom: 20px;">
+    <div style="padding: 0 10px;">
+      <div class="marco-foto animar-elemento">
+        <img src="img/imagen1.jpeg" alt="Detalles Roviro & Mary">
+      </div>
+    </div>
+    
+    <div class="script animar-elemento" style="margin-top: 30px;">Detalles</div>
+
+    <div class="bloque-detalle animar-elemento">
+      <svg class="icono-svg" style="width:45px; height:45px; stroke:var(--verde-invitacion); fill:none;"><use href="#ic-traje" xlink:href="#ic-traje"/></svg>
+      <h3>Dress Code</h3>
+      <p style="font-weight: bold; margin-bottom: 5px;">Formal</p>
+      <p>Se reserva el uso de los colores blanco y verde para la novia y su cortejo.</p>
+    </div>
+
+    <div class="bloque-detalle animar-elemento">
+      <svg class="icono-svg" style="width:40px; height:40px; stroke:var(--verde-invitacion); fill:none;"><use href="#ic-regalo" xlink:href="#ic-regalo"/></svg>
+      <h3>Sugerencia de regalos</h3>
+      <p>Agradecemos de corazón su presencia en este día tan especial. Si desean hacernos un obsequio, una lluvia de sobres o cualquier detalle será recibido con mucho cariño.</p>
+    </div>
+
+    <div class="bloque-detalle animar-elemento">
+      <svg class="icono-svg" style="width:40px; height:40px; stroke:var(--verde-invitacion); fill:none;"><use href="#ic-familia" xlink:href="#ic-familia"/></svg>
+      <p style="font-size: 19px; line-height: 1.6; color: #555; margin-top: 15px;">
+        Con mucho cariño, les informamos que nuestra celebración será solo para adultos. Queremos que todos disfruten de una noche especial, mientras los más pequeños descansan entre dulces sueños.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 4. IMAGEN 4: ÁLBUM Y COMPARTIR ============ -->
+  <section style="padding: 10px 10px 0 10px;">
+    <div class="marco-foto animar-elemento">
+      <img src="img/imagen3.jpeg" alt="Momentos Roviro & Mary">
+    </div>
+  </section>
+
+  <section class="seccion-oscura animar-elemento" style="padding-top: 50px;">
+    <svg class="icono-svg" style="stroke:var(--dorado); fill:none; width:40px; height:40px;"><use href="#ic-camara" xlink:href="#ic-camara"/></svg>
+    <div class="script">Álbum de fotos</div>
+    <p style="margin: 0 10px 20px;">Ayúdanos a guardar los recuerdos de este día tan especial compartiendo tus fotos y videos en nuestro álbum colaborativo.</p>
+    
+    <div class="qr-marco">
+      <img src="fotos.jpeg" alt="QR Álbum">
+    </div>
+    
+    <a class="boton" href="https://photos.app.goo.gl/NHoW8VHsJbFz6knB8" target="_blank" style="margin-bottom: 40px;">Ir al álbum</a>
+
+    <div class="linea-oro" style="opacity: 0.3;"></div>
+
+    <svg class="icono-svg" style="stroke:var(--dorado); fill:none; width:40px; height:40px; margin-top: 20px;"><use href="#ic-musica" xlink:href="#ic-musica"/></svg>
+    <div class="script">Sugerencia de canciones</div>
+    <p style="margin: 0 10px 20px;">Queremos bailar, cantar y celebrar contigo. ¡Suma tus canciones favoritas a nuestra playlist!</p>
+    <a class="boton" href="https://open.spotify.com/playlist/2GL0q140HXHw0pqCP9ySLh?si=mqOlJm8aTEyUNQ0OLUaTjw" target="_blank">Agregar canciones</a>
+  </section>
+
+  <!-- ============ RSVP / CONFIRMACIÓN ============ -->
+  <section class="animar-elemento" style="background-color: var(--crema-fondo);">
+    <p class="parrafo-romantico">"Uno solo puede ser vencido, pero dos pueden resistir. ¡La cuerda de tres hilos no se rompe fácilmente!"<br><strong style="font-size: 14px; color: var(--dorado-oscuro);">Eclesiastés 4,12</strong></p>
+    
+    <div class="linea-oro" style="margin: 35px auto;"></div>
+
+    <svg class="icono-svg" style="width:36px; height:36px; fill:none; stroke: var(--verde-invitacion);"><use href="#ic-anillo" xlink:href="#ic-anillo"/></svg>
+    <div class="script">Confirma tu asistencia</div>
+    <p style="margin-bottom: 30px;">Es muy importante que confirmes si podrás acompañarnos en este momento tan especial para nosotros.</p>
+
+    <div class="campo">
+      <label>NOMBRE Y APELLIDO *</label>
+      <input type="text" id="rsvp-nombre" placeholder="Tu respuesta">
+    </div>
+
+    <div class="campo">
+      <label>¿PODRÁS ACOMPAÑARNOS? *</label>
+      <div class="opciones">
+        <label><input type="radio" name="asistencia" value="Con mucho gusto asistiré" checked> Con mucho gusto asistiré</label>
+        <label><input type="radio" name="asistencia" value="Lamentablemente no podré"> Lamentablemente no podré</label>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label>¿TIENES ALGUNA RESTRICCIÓN ALIMENTARIA? *</label>
+      <input type="text" id="rsvp-alimentos" placeholder="Ninguna">
+    </div>
+
+    <button class="enviar-btn" type="button" onclick="enviarRSVP()">Confirmar Asistencia</button>
+  </section>
+
+  <footer>ROVIRO & MARY<br><span style="font-size: 10px; opacity: 0.7;">19 SEPTIEMBRE, 2026</span></footer>
+</div>
+
+<script>
+  // Evento: 19 de Septiembre de 2026 a las 5:00 PM
+  const fechaBoda = new Date("2026-09-19T17:00:00");
+ 
+  function actualizarTimer(){
+    const ahora = new Date();
+    let diff = fechaBoda - ahora;
+    if(diff < 0) diff = 0;
+    const dias = Math.floor(diff / (1000*60*60*24));
+    const horas = Math.floor((diff / (1000*60*60)) % 24);
+    const mins = Math.floor((diff / (1000*60)) % 60);
+    const segs = Math.floor((diff / 1000) % 60);
+    document.getElementById('dias').textContent = String(dias).padStart(2,'0');
+    document.getElementById('horas').textContent = String(horas).padStart(2,'0');
+    document.getElementById('mins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('segs').textContent = String(segs).padStart(2,'0');
+  }
+  actualizarTimer();
+  setInterval(actualizarTimer, 1000);
+
+  // Controladora de Música Integrada
+  const audio = document.getElementById('musicaBoda');
+  const btnPlay = document.getElementById('btnPlay');
+  const playerContainer = document.getElementById('playerContainer');
+
+  function toggleMusica() {
+    if (audio.paused) {
+      audio.play().then(() => {
+        btnPlay.textContent = "⏸";
+        playerContainer.classList.add('playing');
+      }).catch(err => {
+        console.log("Error al reproducir: ", err);
+      });
+    } else {
+      audio.pause();
+      btnPlay.textContent = "▶";
+      playerContainer.classList.remove('playing');
+    }
+  }
+
+  // Desvanecer Intro de Bienvenida
+  function entrarInvitacion() {
+    const welcome = document.getElementById('pantalla-bienvenida');
+    welcome.classList.add('ocultar');
+    
+    audio.play().then(() => {
+      btnPlay.textContent = "⏸";
+      playerContainer.classList.add('playing');
+    }).catch(err => {
+      console.log("Interacción requerida para audio.");
+    });
+
+    desencadenarAnimaciones();
+  }
+
+  // Animaciones Dinámicas al bajar (Scroll Trigger)
+  const elementosAnimados = document.querySelectorAll('.animar-elemento');
+  
+  function desencadenarAnimaciones() {
+    elementosAnimados.forEach(el => {
+      const posicion = el.getBoundingClientRect().top;
+      const alturaPantalla = window.innerHeight * 0.9;
+      if (posicion < alturaPantalla) {
+        el.classList.add('visible');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', desencadenarAnimaciones);
+  window.addEventListener('load', desencadenarAnimaciones);
+
+  // WhatsApp RSVP con diferenciación de asistencia
+  function enviarRSVP() {
+    const nombre = document.getElementById('rsvp-nombre').value.trim();
+    const asistencia = document.querySelector('input[name="asistencia"]:checked').value;
+    const alimentos = document.getElementById('rsvp-alimentos').value.trim() || 'Ninguna';
+
+    if (!nombre) {
+      alert("Por favor, ingresa tu nombre y apellido.");
+      return;
+    }
+
+    const numeroTelefono = "+591 63192700";
+    let mensaje = "";
+
+    // Lógica diferenciada de mensaje según la opción seleccionada
+    if (asistencia === "Con mucho gusto asistiré") {
+      mensaje = `¡Hola Roviro y Mary! 🌸\n\nQuiero confirmar mi asistencia a su boda:\n\n👤 *Nombre:* ${nombre}\n💌 *Confirmación:* ¡Con mucho gusto asistiré! 🎉\n🍽 *Restricción alimentaria:* ${alimentos}\n\n¡Qué alegría compartir con ustedes este gran día! ✨`;
+    } else {
+      mensaje = `¡Hola Roviro y Mary! 🌸\n\nLes escribo para responder a su invitación::\n\n👤 *Nombre:* ${nombre}\n💌 *Confirmación:* Lamentablemente no podré asistir.\n\nDe todo corazón les deseo lo mejor en esta nueva etapa, que Dios bendiga enormemente su matrimonio. ¡Les envío un abrazo muy fuerte! 💕`;
+    }
+
+    window.open(`https://api.whatsapp.com/send?phone=${numeroTelefono}&text=${encodeURIComponent(mensaje)}`, '_blank');
+  }
+</script>
+</body>
+</html>
