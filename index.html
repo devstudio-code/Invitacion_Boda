@@ -302,6 +302,9 @@ section{
 .linea-oro{ width:50px; height:1px; background:var(--dorado); margin:20px auto; }
 
 /* ---- Flores decorativas en PNG (imágenes reales) ---- */
+/* Estilo base compartido: tamaño, sombra, comportamiento. La POSICIÓN de cada
+   flor vive en su propia clase individual más abajo, así cada una se mueve
+   por separado sin afectar a las demás aunque estén en la misma tarjeta. */
 .flor-png {
   position: absolute;
   width: 110px;
@@ -310,9 +313,17 @@ section{
   z-index: 15;
   filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
 }
-.flor-png-tr { top: -10px; right: -5px; }
-.flor-png-bl { bottom: -22px; left: -18px; }
-.flor-png-overlay { top: -28px; left: -24px; width: 120px; z-index: 20; }
+
+/* Flores de la tarjeta "Padres" (mover cada una editando solo su clase) */
+.flor-padres-tr { top: -20px; right: -25px; }
+.flor-padres-bl { bottom: -22px; left: -18px; }
+
+/* Flores de la tarjeta arqueada "Ceremonia / Evento" (Ubicaciones) */
+.flor-arco-tr { top: -18px; right: -19px; }
+.flor-arco-bl { bottom: -25px; left: -30px; }
+
+/* Flor superpuesta sobre la foto del álbum */
+.flor-album-overlay { top: -22px; left: -15px; width: 120px; z-index: 20; }
 
 /* ---- CONTENEDOR PARA FOTO CON FLOR SUPERPUESTA ---- */
 .marco-foto-flor {
@@ -537,7 +548,7 @@ section{
   border-radius: 120px 120px 12px 12px;
   padding: 65px 30px 45px;
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* deja que las flores sobresalgan por fuera de la tarjeta */
   margin-top: 35px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
@@ -629,7 +640,7 @@ footer { padding: 40px 20px; text-align: center; font-family: 'Marcellus', serif
 
       <div class="texto-invitado">
         <div class="invitacion-reservada">Invitación Reservada para:</div>
-        <div class="nombre-familia" id="nombreInvitado">Familias ....</div>
+        <div class="nombre-familia" id="nombreInvitado">Familiares y Amistades ...</div>
       </div>
 
       <!-- Solapa limpia sin fotos fantasmas -->
@@ -681,14 +692,15 @@ footer { padding: 40px 20px; text-align: center; font-family: 'Marcellus', serif
   <!-- ============ 1. IMAGEN 1: PORTADA (La imagen real está aquí protegida) ============ -->
   <section id="portada" style="padding: 10px 10px 0 10px;">
     <div class="marco-foto">
-      <img src="img/imagen4.jpeg" alt="Portada Roviro & Mary">
+      <img src="img/imagen4.jpeg" alt="Portada Pedro Plata Belén & Maria Velasco Poiqui">
     </div>
   </section>
 
   <!-- ============ INTRODUCCIÓN ============ -->
   <section class="animar-elemento" style="padding-top: 40px; padding-bottom: 40px;">
     <div class="eyebrow">Nuestra Boda</div>
-    <h1 class="nombres-portada">Roviro & Mary</h1>
+    <h1 class="nombres-portada">Pedro Plata Belén
+    <h1>&</h1><h1 class="nombres-portada">Maria Velasco Poiqui</h1></h1>
     <p class="parrafo-romantico">
       "Hemos decidido dar un gran paso y seguir caminando juntos de la mano, por eso queremos contarte que"
     </p>
@@ -707,19 +719,28 @@ footer { padding: 40px 20px; text-align: center; font-family: 'Marcellus', serif
     <div class="eyebrow" style="font-size: 10px; margin-top: 10px;">Escucha nuestra canción</div>
 
     <div class="tarjeta-padres">
-      <img src="img/flor4.png" alt="Flores decorativas" class="flor-png flor-png-tr">
-      <img src="img/flor3.png" alt="Flores decorativas" class="flor-png flor-png-bl">
+      <img src="img/flor1.png" alt="Flores decorativas" class="flor-png flor-padres-tr">
+      <img src="img/flor2.png" alt="Flores decorativas" class="flor-png flor-padres-bl">
 
       <p style="font-size: 17px; margin-bottom: 25px; opacity: 0.85;">Con nuestro amor, la bendición de Dios y de nuestros padres.</p>
       
       <h4>Padres de la Novia</h4>
-      <p>Rafael Briceño<br>Layda Quintero</p>
+      <p>Sr. Julio Plata<br>Sra. Isabel Belen</p>
       
       <h4>Padres del Novio</h4>
-      <p>Roviro Andrade<br>Cruz Ruiz</p>
+      <p>Sr. Angel Velasco<br>Sra. Simona Poiqui</p>
       
-      <h4>Padrinos</h4>
-      <p>Langer Quintero<br>Andrea Acevedo</p>
+      <h4>Padrinos de Religion y Civil</h4>
+      <p>Sr. Sixto Seña Belen<br>Sra. Lidia Rivera Veras</p>
+
+      <h4>Padrinos de Aro</h4>
+      <p>Sr. Eduardo Poiqui Castro<br>Sra. Isabel Gonsale</p>
+
+      <h4>Padrinos de Recuerdo</h4>
+      <p>Sr. Wilson Ajalla Arce<br>Sra. Lourde</p>
+
+      <h4>Padrinos de Conteo</h4>
+      <p>Sr. Cecilio<br>Sra. Virginia</p>
     </div>
   </section>
 
@@ -746,7 +767,7 @@ footer { padding: 40px 20px; text-align: center; font-family: 'Marcellus', serif
 
     <div style="padding: 10px 10px 0 10px;">
       <div class="marco-foto animar-elemento" style="margin-top: 40px;">
-        <img src="img/imagen3.jpeg" alt="Roviro y Mary Juntos">
+        <img src="img/imagen3.jpeg" alt="Pedro Plata Belén & Maria Velasco Poiqui">
       </div>
     </div>
   </section>
@@ -855,8 +876,8 @@ footer { padding: 40px 20px; text-align: center; font-family: 'Marcellus', serif
   <!-- ============ UBICACIONES ARQUEADAS ============ -->
   <section style="padding-top: 10px;">
     <div class="tarjeta-arco animar-elemento">
-      <img src="img/flor4.png" alt="Flores decorativas" class="flor-png flor-png-tr">
-      <img src="img/flor3.png" alt="Flores decorativas" class="flor-png flor-png-bl">
+      <img src="img/flor4.png" alt="Flores decorativas" class="flor-png flor-arco-tr">
+      <img src="img/flor3.png" alt="Flores decorativas" class="flor-png flor-arco-bl">
 
       <svg class="icono-svg" style="stroke:#fff; width:36px; height:36px; fill:none; margin-bottom: 15px;"><use href="#ic-pin" xlink:href="#ic-pin"/></svg>
 
@@ -878,7 +899,7 @@ footer { padding: 40px 20px; text-align: center; font-family: 'Marcellus', serif
   <section style="padding-bottom: 20px;">
     <div style="padding: 0 10px;">
       <div class="marco-foto animar-elemento">
-        <img src="img/imagen1.jpeg" alt="Detalles Roviro & Mary">
+        <img src="img/imagen1.jpeg" alt="Detalles Pedro Plata Belén & Maria Velasco Poiqui">
       </div>
     </div>
     
@@ -908,9 +929,9 @@ footer { padding: 40px 20px; text-align: center; font-family: 'Marcellus', serif
   <!-- ============ 4. IMAGEN 4: ÁLBUM Y COMPARTIR ============ -->
   <section style="padding: 30px 10px 0 10px; overflow: visible;">
     <div class="marco-foto-flor animar-elemento">
-      <img src="img/flor5.png" alt="Flor decorativa" class="flor-png flor-png-overlay">
+      <img src="img/flor5.png" alt="Flor decorativa" class="flor-png flor-album-overlay">
       <div class="marco-foto">
-        <img src="img/imagen3.jpeg" alt="Momentos Roviro & Mary">
+        <img src="img/imagen3.jpeg" alt="Momentos Pedro Plata Belén & Maria Velasco Poiqui">
       </div>
     </div>
   </section>
@@ -924,14 +945,14 @@ footer { padding: 40px 20px; text-align: center; font-family: 'Marcellus', serif
       <img src="fotos.jpeg" alt="QR Álbum">
     </div>
     
-    <a class="boton" href="https://photos.app.goo.gl/NHoW8VHsJbFz6knB8" target="_blank" style="margin-bottom: 40px;">Ir al álbum</a>
+    <a class="boton" href="https://photos.google.com/share/AF1QipNAkYUTWIl3hxeu9MuFsRB8NYMcIdamoViX5oxQDa6nj1f2CNUaJsZmQZcYOuVEeg?key=Vy11VDBoSFl4UE9vTlpPWG1ITFRsVUQ3RkdmVmNR" target="_blank" style="margin-bottom: 40px;">Ir al álbum</a>
 
     <div class="linea-oro" style="opacity: 0.3;"></div>
 
     <svg class="icono-svg" style="stroke:var(--dorado); fill:none; width:40px; height:40px; margin-top: 20px;"><use href="#ic-musica" xlink:href="#ic-musica"/></svg>
     <div class="script">Sugerencia de canciones</div>
     <p style="margin: 0 10px 20px;">Queremos bailar, cantar y celebrar contigo. ¡Suma tus canciones favoritas a nuestra playlist!</p>
-    <a class="boton" href="https://open.spotify.com/playlist/2GL0q140HXHw0pqCP9ySLh?si=mqOlJm8aTEyUNQ0OLUaTjw" target="_blank">Agregar canciones</a>
+    <a class="boton" href="https://spotify.link/nuogOj8KS4b" target="_blank">Agregar canciones</a>
   </section>
 
   <!-- ============ RSVP / CONFIRMACIÓN ============ -->
@@ -965,7 +986,7 @@ footer { padding: 40px 20px; text-align: center; font-family: 'Marcellus', serif
     <button class="enviar-btn" type="button" onclick="enviarRSVP()">Confirmar Asistencia</button>
   </section>
 
-  <footer>ROVIRO & MARY<br><span style="font-size: 10px; opacity: 0.7;">19 SEPTIEMBRE, 2026</span></footer>
+  <footer>PEDRO PLATA BELÉN & MARIA VELASCO POIQUI<br><span style="font-size: 10px; opacity: 0.7;">19 SEPTIEMBRE, 2026</span></footer>
 </div>
 
 <script>
