@@ -1109,9 +1109,9 @@ footer { padding: 40px 20px; text-align: center; font-family: 'Marcellus', serif
     let mensaje = "";
 
     if (asistencia === "Con mucho gusto asistiré") {
-      mensaje = `¡Hola Roviro y Mary! 🌸\n\nQuiero confirmar mi asistencia a su boda:\n\n👤 *Nombre:* ${nombre}\n💌 *Confirmación:* ¡Con mucho gusto asistiré! 🎉\n🍽 *Restricción alimentaria:* ${alimentos}\n\n¡Qué alegría compartir con ustedes este gran día! ✨`;
+      mensaje = `¡Hola Pedro y Maria! 🌸\n\nQuiero confirmar mi asistencia a su boda:\n\n👤 *Nombre:* ${nombre}\n💌 *Confirmación:* ¡Con mucho gusto asistiré! 🎉\n🍽 *Restricción alimentaria:* ${alimentos}\n\n¡Qué alegría compartir con ustedes este gran día! ✨`;
     } else {
-      mensaje = `¡Hola Roviro y Mary! 🌸\n\nLes escribo para responder a su invitación:\n\n👤 *Nombre:* ${nombre}\n💌 *Confirmación:* Lamentablemente no podré asistir.\n\nDe todo corazón les deseo lo mejor en esta nueva etapa, que Dios bendiga enormemente su matrimonio. ¡Les envío un abrazo muy fuerte! 💕`;
+      mensaje = `¡Hola Pedro y Maria! 🌸\n\nLes escribo para responder a su invitación:\n\n👤 *Nombre:* ${nombre}\n💌 *Confirmación:* Lamentablemente no podré asistir.\n\nDe todo corazón les deseo lo mejor en esta nueva etapa, que Dios bendiga enormemente su matrimonio. ¡Les envío un abrazo muy fuerte! 💕`;
     }
 
     window.open(`https://api.whatsapp.com/send?phone=${numeroTelefono}&text=${encodeURIComponent(mensaje)}`, '_blank');
